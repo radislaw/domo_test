@@ -1,6 +1,11 @@
+@import "variables";
+@import "components/cards";
+
 // bower:scss
 @import "bower_components/bootstrap/scss/bootstrap.scss";
 // endbower
+
+
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -43,15 +48,6 @@ body {
   border-top: .05rem solid #e5e5e5;
 }
 
-/* Customize container */
-@media (min-width: 48em) {
-  .container {
-    max-width: 46rem;
-  }
-}
-.container-narrow > hr {
-  margin: 2rem 0;
-}
 
 /* Main marketing message and sign up button */
 .jumbotron {
