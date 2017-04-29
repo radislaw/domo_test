@@ -2,7 +2,8 @@
   "name": "catalog-test",
   "private": true,
   "dependencies": {
-    "bootstrap": "~4.0.0-alpha.6"
+    "bootstrap": "~4.0.0-alpha.6",
+    "rateYo": "rateyo#^2.3.2"
   },
   "overrides": {
     "bootstrap": {

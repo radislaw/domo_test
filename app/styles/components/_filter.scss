@@ -1,0 +1,87 @@
+.filter {
+  @extend .col-3;
+  font-size: 15px;
+
+  &__wrap {
+    border: 1px solid #e4e4e4;
+    padding: 15px;
+
+    &:not(:first-child) {
+      margin-top: -1px;
+    }
+
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    &_row{
+      @extend .filter__list;
+      display: flex;
+    }
+  }
+
+  &__title {
+    font-size: 15px;
+    color: $link-color;
+    margin-bottom: 1rem;
+  }
+
+  &__item{
+    margin-right: 2rem;
+  }
+
+  &__label {
+    position: relative;
+    padding-left: 23px;
+  }
+
+  &__name{
+
+  }
+
+  &__checkbox, &__radio {
+    display: none;
+  }
+
+  &__fake-checkbox {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #e2e2e2;
+  }
+
+  &__fake-radio {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #e2e2e2;
+    border-radius: 50%;
+  }
+
+}
+
+:checked+.filter__fake-checkbox {
+  background-image: url(../../images/check-sign.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size:90%;
+}
+
+:checked+.filter__fake-radio:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #fb8c00;
+}
