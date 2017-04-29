@@ -1,60 +1,79 @@
+.card{
+  @extend .col-6;
+  padding-left: 0;
+  padding-right: 0;
 
-.product-card {
-  background-color: #fefefe;
-  border: 1px solid $gray-lighter;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-}
+  &__img{
 
-.product-card-thumbnail {
-  display: block;
-  position: relative;
-}
+  }
 
-.product-card-title {
-  font-family: 'Open sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.45rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
+  &__title{
+    display: inline-block;
+    margin-bottom: 10px;
+  }
 
-.product-card-desc {
-  color: #8a8a8a;
-  display: block;
-  font-family: 'Open sans', sans-serif;
-  font-size: 0.85rem;
+  &__block{
+    @extend .card-block;
+    padding: 5px;
+  }
+
+  &__rating{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+
+    &__stars{
+      padding: 0;
+      font-size: 0;
+    }
+  }
+
+  &__review{
+
+    &__total{
+      font-size: 13px;
+    }
+
+    &__amount{
+
+    }
+
+  }
+
+  &__deal{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__btn{
+    @extend .btn;
+    @extend .btn-secondary;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 1px 1px $gray-lighter;
+    padding: 7px 10px;
+  }
 }
 
 .product-card-prices {
-  float: left;
-  margin-right: 1rem;
+  //margin-right: 1rem;
 }
 
 .product-card-price {
   color: #3e3e3e;
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 18px;
   line-height: 1;
 }
 
 .product-card-sale {
-  color: #cacaca;
-  font-size: 0.85rem;
+  color: #999;
+  font-size: 13px;
   text-decoration: line-through;
 }
 
-.product-card-rating_wrap {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-}
-
 .product-card-rating_total {
-  &:after, &::before {
-    display: inline-block;
-  }
+
 }
 
 .button {
@@ -78,4 +97,15 @@
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: 3rem;
   }
+}
+
+.page-item:last-child .page-link {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.page-item:first-child .page-link {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  display: none;
 }

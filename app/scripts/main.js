@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-  const $ratingStar = $('.product-card-rating');
+  const $ratingStar = $('.card__rating__stars');
 
   $ratingStar.each((i, e) => {
     let rating = $(e).text();
@@ -16,7 +16,7 @@ $( document ).ready(function() {
       normalFill: '#e4e4e4',
       ratedFill: '#f6c000',
       readOnly: true,
-      spacing: '3px',
+      spacing: '4px',
       starSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4915.386 4934.4 23.598 22.662">
 				            <defs> <style> .cls-1 {
                                 stroke: #96999b;
