@@ -94,7 +94,7 @@ $card-border-color: transparent !default;
 $white: #fff !default;
 $black: #000 !default;
 $red: #d9534f !default;
-$orange: #f0ad4e !default;
+$orange: #fb8c00 !default;
 $yellow: #ffd500 !default;
 $green: #5cb85c !default;
 $blue: #0275d8 !default;
@@ -189,8 +189,8 @@ $inverse-color: $gray-lighter !default;
 
 $link-color: #355b99;
 $link-decoration: none !default;
-$link-hover-color: darken($link-color, 15%) !default;
-$link-hover-decoration: underline !default;
+$link-hover-color: $orange;
+$link-hover-decoration: none;
 
 // Grid breakpoints
 //

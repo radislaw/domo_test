@@ -1,0 +1,26 @@
+.sorting{
+  display: flex;
+
+  &__label{
+    display: flex;
+    align-items: flex-end;
+    margin-left: 1rem;
+    color: $link-color;
+    cursor: pointer;
+
+    span{
+      display: block;
+      margin-left: 5px;
+      width: 16px;
+      height: 16px;
+      background-image: url(../../images/sort_a_z.svg);
+      background-repeat: no-repeat;
+      background-size: 80%;
+
+      &.flipY{
+        transform: scaleY(-1);
+        margin-bottom: 7px;
+      }
+    }
+  }
+}
