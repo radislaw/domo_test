@@ -1,7 +1,7 @@
 
 .product-card {
   background-color: #fefefe;
-  border: 1px solid #e6e6e6;
+  border: 1px solid $gray-lighter;
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -68,5 +68,14 @@
 @media (min-width: 576px) {
   .card-deck .card:not(:last-child) {
     margin-right: 5px;
+  }
+}
+
+.card-deck{
+  padding-bottom: 2rem;
+
+  &:not(:last-of-type){
+    border-bottom: 1px solid $gray-lighter;
+    margin-bottom: 3rem;
   }
 }
