@@ -1,52 +1,79 @@
-.card{
+.card {
   @extend .col-6;
   padding-left: 0;
   padding-right: 0;
+  align-items: center;
 
-  &__img{
+  &__img {
 
   }
 
-  &__title{
+  &__title {
     display: inline-block;
     margin-bottom: 10px;
   }
 
-  &__block{
+  &__block {
     @extend .card-block;
     padding: 5px;
   }
 
-  &__rating{
+  &__rating {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 1rem;
 
-    &__stars{
+    &__stars {
       padding: 0;
       font-size: 0;
     }
   }
 
-  &__review{
+  &__review {
 
-    &__total{
+    &__total {
       font-size: 13px;
     }
 
-    &__amount{
+    &__amount {
 
     }
 
   }
 
-  &__deal{
+  &__deal {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
-  &__btn{
+  &__prices {
+
+  }
+
+  &__sale {
+    color: #999;
+    font-size: 13px;
+    text-decoration: line-through;
+
+    + .card__price {
+      margin-top: 0;
+    }
+  }
+
+  &__price {
+    color: #3e3e3e;
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 18px;
+  }
+
+  .b-add-to-cart__price_crossed + .b-add-to-cart__price-big {
+    margin: 0;
+  }
+
+  &__btn {
     @extend .btn;
     @extend .btn-secondary;
     font-size: 14px;
@@ -56,32 +83,10 @@
   }
 }
 
-.product-card-prices {
-  //margin-right: 1rem;
-}
-
 .product-card-price {
   color: #3e3e3e;
   font-size: 18px;
   line-height: 1;
-}
-
-.product-card-sale {
-  color: #999;
-  font-size: 13px;
-  text-decoration: line-through;
-}
-
-.product-card-rating_total {
-
-}
-
-.button {
-  box-shadow: 0 1px 3px 0 #b5b1af;
-}
-
-.card {
-  align-items: center;
 }
 
 @media (min-width: 576px) {
@@ -90,10 +95,10 @@
   }
 }
 
-.card-deck{
+.card-deck {
   padding-bottom: 2rem;
 
-  &:not(:last-of-type){
+  &:not(:last-of-type) {
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: 3rem;
   }

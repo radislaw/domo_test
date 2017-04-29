@@ -33,6 +33,11 @@ body {
   padding-left: 1rem;
 }
 
+
+.content{
+  @extend .col-19;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 48em) {
   /* Remove the padding we set earlier */
