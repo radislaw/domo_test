@@ -1,4 +1,143 @@
-$(document).ready(function() {
+$(document).ready(() => {
+  /* Фильтрация, пагинация, сортировка */
+
+  let page = 1,
+      sort = 'asc';
+
+  const loadData = (postData) => {
+    $.ajax({
+      url: 'catalog.php',
+      data: postData,
+      dataType: 'json',
+      success: function(data) {
+        let html = '<div class="card-deck">';
+
+        let firstPart  = [];
+        let secondPart = [];
+
+        if (data.length > 4) {
+          for (let i = 0; i < data.length / 2; i++) {
+            firstPart.push(data[i]);
+          }
+          for (let i = 4; i < data.length; i++) {
+            secondPart.push(data[i]);
+          }
+        }
+
+        console.log(data.length);
+        console.log(firstPart);
+        console.log(secondPart);
+
+        firstPart.forEach(item => {
+          html += `
+                <div class="card">
+                  <img class="card__img" src="${item.image}" alt=${item.title}>
+                  <div class="card__block">
+                    <a href="#" class="card__title">${item.title}</a>
+                    <div class="card__rating">
+                      <div class="card__rating__stars">${item.rating}</div>
+                      <a href="#" class="card__review__total">Всего
+                        <span class="card__review__amount">${item.reviews} отзыв</span>
+                      </a>
+                    </div>
+                    <div class="card__deal">
+                      <div class="card__prices">
+                        <div class="card__sale">${item.sale_price} р.</div>
+                        <div class="card__price">${item.price} р.</div>
+                      </div>
+                      <button type="button" class="card__btn">В корзину</button>
+                    </div>
+                  </div>
+                </div>`;
+        });
+
+        html += '</div><div class="card-deck">';
+
+        secondPart.forEach(item => {
+          // html += `<ul>
+          //           <li>id: ${item.id}</li>
+          //           <li>Brand: ${item.brand}</li>
+          //           <li>Title: ${item.title}</li>
+          //           <li>Image: ${item.image}</li>
+          //           <li>Rating: ${item.rating}</li>
+          //           <li>Reviews: ${item.reviews}</li>
+          //           <li>Has SSD: ${item.has_ssd}</li>
+          //           <li>Price: ${item.price}</li>
+          //           <li>Sale Price: ${item.sale_price}</li>
+          //        // </ul>`;
+          html += `
+                <div class="card">
+                  <img class="card__img" src="${item.image}" alt=${item.title}>
+                  <div class="card__block">
+                    <a href="#" class="card__title">${item.title}</a>
+                    <div class="card__rating">
+                      <div class="card__rating__stars">${item.rating}</div>
+                      <a href="#" class="card__review__total">Всего
+                        <span class="card__review__amount">${item.reviews} отзыв</span>
+                      </a>
+                    </div>
+                    <div class="card__deal">
+                      <div class="card__prices">
+                        <div class="card__sale">${item.sale_price} р.</div>
+                        <div class="card__price">${item.price} р.</div>
+                      </div>
+                      <button type="button" class="card__btn">В корзину</button>
+                    </div>
+                  </div>
+                </div>`;
+        });
+
+        html += '</div>';
+        
+        $('#content').html(html);
+      },
+    });
+  };
+
+  const showValues = () => {
+    let brand1 = '',
+        brand2 = '',
+        brand3 = '';
+
+    const asus = $('input[name="brand1"]'),
+          acer = $('input[name="brand2"]'),
+          hp   = $('input[name="brand3"]');
+
+    if (asus.is(':checked')) {
+      brand1 = asus.val();
+    }
+
+    if (acer.is(':checked')) {
+      brand2 = acer.val();
+    }
+
+    if (hp.is(':checked')) {
+      brand3 = hp.val();
+    }
+
+    loadData({
+      brand1,
+      brand2,
+      brand3,
+    });
+  };
+
+  loadData({page, sort});
+
+  $('input[type=\'checkbox\']').on('click', showValues);
+
+// Remove checked when checkbox is checked
+  $('.checkboxes').click(() => {
+    $(this).removeAttr('checked');
+    showValues();
+  });
+
+  /**/
+  const $sort     = $('.sorting__label');
+  const $sortIcon = $sort.find('span');
+  $sort.click(() => {
+    $sortIcon.toggleClass('flipY');
+  });
 
   /* star rating settings */
   const $ratingStar = $('.card__rating__stars');
@@ -28,12 +167,5 @@ f			                    }
 				            </svg>`,
 
     });
-  });
-
-  /**/
-  const $sort = $('.sorting__label');
-  const $sortIcon = $sort.find('span');
-  $sort.click(() => {
-    $sortIcon.toggleClass('flipY');
   });
 });
