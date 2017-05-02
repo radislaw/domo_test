@@ -19,13 +19,46 @@ $(document).ready(() => {
       data: postData,
       dataType: 'json',
       success: function(data) {
-        let html = '<div class="card-deck">';
+        let html       = '';
+        const card     = (item) => {
+          let sale_price = '';
+          if (item.sale_price === null) {
+            sale_price = '';
+          } else
+          sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
+          
+          return `<div class="card">
+                    <img class="card__img" src="${item.image}" alt=${item.title}>
+                    <div class="card__block">
+                      <a href="#" class="card__title">${item.title}</a>
+                      <div class="card__rating">
+                        <div class="card__rating__stars">${item.rating}</div>
                         <a href="#" class="card__review__total">Всего
                           <span class="card__review__amount">${item.reviews} ${pluralize(
               item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>
+                        </a>
+                      </div>
+                      <div class="card__deal">
+                        <div class="card__prices">
+                          ${sale_price}
+                          <div class="card__price">${item.price} р.</div>
+                        </div>
+                        <button type="button" class="card__btn">В корзину</button>
+                      </div>
+                    </div>
+                </div>`;
+        };
 
         let firstPart  = [];
         let secondPart = [];
+
+        html = '<div class="card-deck">';
+
+        data.forEach(item => {
+          html += card(item);
+        });
+
+        html += '</div>';
 
         if (data.length > 4) {
           for (let i = 0; i < data.length / 2; i++) {
@@ -34,73 +67,22 @@ $(document).ready(() => {
           for (let i = 4; i < data.length; i++) {
             secondPart.push(data[i]);
           }
+          html = '<div class="card-deck">';
+
+          firstPart.forEach(item => {
+            html += card(item);
+          });
+
+          html += '</div><div class="card-deck">';
+
+          secondPart.forEach(item => {
+            html += card(item);
+          });
+
+          html += '</div>';
+
         }
 
-        console.log(data.length);
-        console.log(firstPart);
-        console.log(secondPart);
-
-        firstPart.forEach(item => {
-          html += `
-                <div class="card">
-                  <img class="card__img" src="${item.image}" alt=${item.title}>
-                  <div class="card__block">
-                    <a href="#" class="card__title">${item.title}</a>
-                    <div class="card__rating">
-                      <div class="card__rating__stars">${item.rating}</div>
-                      <a href="#" class="card__review__total">Всего
-                        <span class="card__review__amount">${item.reviews} отзыв</span>
-                      </a>
-                    </div>
-                    <div class="card__deal">
-                      <div class="card__prices">
-                        <div class="card__sale">${item.sale_price} р.</div>
-                        <div class="card__price">${item.price} р.</div>
-                      </div>
-                      <button type="button" class="card__btn">В корзину</button>
-                    </div>
-                  </div>
-                </div>`;
-        });
-
-        html += '</div><div class="card-deck">';
-
-        secondPart.forEach(item => {
-          // html += `<ul>
-          //           <li>id: ${item.id}</li>
-          //           <li>Brand: ${item.brand}</li>
-          //           <li>Title: ${item.title}</li>
-          //           <li>Image: ${item.image}</li>
-          //           <li>Rating: ${item.rating}</li>
-          //           <li>Reviews: ${item.reviews}</li>
-          //           <li>Has SSD: ${item.has_ssd}</li>
-          //           <li>Price: ${item.price}</li>
-          //           <li>Sale Price: ${item.sale_price}</li>
-          //        // </ul>`;
-          html += `
-                <div class="card">
-                  <img class="card__img" src="${item.image}" alt=${item.title}>
-                  <div class="card__block">
-                    <a href="#" class="card__title">${item.title}</a>
-                    <div class="card__rating">
-                      <div class="card__rating__stars">${item.rating}</div>
-                      <a href="#" class="card__review__total">Всего
-                        <span class="card__review__amount">${item.reviews} отзыв</span>
-                      </a>
-                    </div>
-                    <div class="card__deal">
-                      <div class="card__prices">
-                        <div class="card__sale">${item.sale_price} р.</div>
-                        <div class="card__price">${item.price} р.</div>
-                      </div>
-                      <button type="button" class="card__btn">В корзину</button>
-                    </div>
-                  </div>
-                </div>`;
-        });
-
-        html += '</div>';
-        
         $('#content').html(html);
 
         const $ratingStar = $('.card__rating__stars');
@@ -172,7 +154,7 @@ f			                    }
     $(this).removeAttr('checked');
     showValues();
   });
-  
+
   /**/
   const $sort     = $('.sorting__label');
   const $sortIcon = $sort.find('span');
