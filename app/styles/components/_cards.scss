@@ -83,12 +83,6 @@
   }
 }
 
-.product-card-price {
-  color: #3e3e3e;
-  font-size: 18px;
-  line-height: 1;
-}
-
 @media (min-width: 576px) {
   .card-deck .card:not(:last-child) {
     margin-right: 5px;
@@ -96,7 +90,7 @@
 }
 
 .card-deck {
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid $gray-lighter;

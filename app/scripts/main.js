@@ -9,24 +9,36 @@ $(document).ready(() => {
             2];
   };
 
+  /* Прелоадер */
+  const $preloader = $('.preloader');
+
+  const hidePreloader = () => {
+    $preloader.hide();
+  };
+
+  const showPreloader = () => {
+    $preloader.css('display', 'flex');
+  };
+
   /* Фильтрация, пагинация, сортировка */
   let page = 1,
       sort = 'asc';
 
   const loadData = (postData) => {
+    showPreloader();
     $.ajax({
       url: 'catalog.php',
       data: postData,
       dataType: 'json',
-      success: function(data) {
-        let html       = '';
-        const card     = (item) => {
+      success(data) {
+        let html   = '';
+        const card = (item) => {
           let sale_price = '';
           if (item.sale_price === null) {
             sale_price = '';
           } else
-          sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
-          
+            sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
+
           return `<div class="card">
                     <img class="card__img" src="${item.image}" alt=${item.title}>
                     <div class="card__block">
@@ -83,7 +95,7 @@ $(document).ready(() => {
 
         }
 
-        $('#content').html(html);
+        $('#cards_container').html(html);
 
         const $ratingStar = $('.card__rating__stars');
         $ratingStar.each((i, e) => {
@@ -113,6 +125,8 @@ f			                    }
 
           });
         });
+
+        hidePreloader();
       },
     });
   };
