@@ -30,6 +30,7 @@ $(document).ready(() => {
       url: 'catalog.php',
       data: postData,
       dataType: 'json',
+      cache: false,
       success(data) {
         let html   = '';
         const card = (item) => {
@@ -40,7 +41,8 @@ $(document).ready(() => {
             sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
 
           return `<div class="card">
-                    <img class="card__img" src="${item.image}" alt=${item.title}>
+                    <img class="card__img" src="${item.image}" 
+                    alt=${item.title} width="171" height="140">
                     <div class="card__block">
                       <a href="#" class="card__title">${item.title}</a>
                       <div class="card__rating">
