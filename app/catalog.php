@@ -15,6 +15,8 @@ if ($connection->connect_error) {
 $brand1 = $_GET['brand1'];
 $brand2 = $_GET['brand2'];
 $brand3 = $_GET['brand3'];
+$yes_ssd = $_GET['yes_ssd'];
+$no_ssd = $_GET['no_ssd'];
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $sort = (isset($_GET['sort']) && $_GET['sort'] == 'desc') ? 'desc' : 'asc';
 
@@ -33,10 +35,16 @@ $sql = "SELECT * FROM notebooks";
 
 /* Фильтрация */
 if ($brand1 != null || $brand2 != null || $brand3 != null) {
-    $sql = "SELECT * FROM notebooks 
-          WHERE brand = '$brand1' 
+    $sql = "SELECT * FROM notebooks
+          WHERE brand = '$brand1'
           OR brand = '$brand2'
           OR brand = '$brand3'";
+}
+
+if ($yes_ssd != null || $no_ssd != null) {
+    $sql = "SELECT * FROM notebooks
+          WHERE has_ssd = '$yes_ssd'
+          OR has_ssd = '$no_ssd'";
 }
 
 $result = mysqli_query($connection, $sql) or die("Ошибка: " . mysqli_error($connection));
