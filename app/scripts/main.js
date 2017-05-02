@@ -145,6 +145,7 @@ f			                    }
   };
 
   const filterData = () => {
+    $cardsContainer.html(' ');
     let brand1 = '',
         brand2 = '',
         brand3 = '';
