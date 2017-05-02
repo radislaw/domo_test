@@ -32,13 +32,21 @@ $(document).ready(() => {
       dataType: 'json',
       cache: false,
       success(data) {
-        let html   = '';
+        let html       = '',
+            sale_price = '',
+            reviews    = '';
+
         const card = (item) => {
-          let sale_price = '';
           if (item.sale_price === null) {
             sale_price = '';
           } else
             sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
+
+          if (item.reviews === null) {
+            reviews = 'Нет отзывов';
+          } else
+            reviews = `Всего <span class="card__review__amount">${item.reviews} ${pluralize(
+              item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>`;
 
           return `<div class="card">
                     <img class="card__img" src="${item.image}" 
@@ -47,10 +55,7 @@ $(document).ready(() => {
                       <a href="#" class="card__title">${item.title}</a>
                       <div class="card__rating">
                         <div class="card__rating__stars">${item.rating}</div>
-                        <a href="#" class="card__review__total">Всего
-                          <span class="card__review__amount">${item.reviews} ${pluralize(
-              item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>
-                        </a>
+                        <a href="#" class="card__review__total">${reviews}</a>
                       </div>
                       <div class="card__deal">
                         <div class="card__prices">
