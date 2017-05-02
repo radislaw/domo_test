@@ -10,14 +10,14 @@ $(document).ready(() => {
   };
 
   /* Прелоадер */
-  const $preloader = $('.preloader');
+  const $cardsContainer = $('#cards_container');
 
   const hidePreloader = () => {
-    $preloader.hide();
+    $cardsContainer.removeClass('preloader');
   };
 
   const showPreloader = () => {
-    $preloader.css('display', 'flex');
+    $cardsContainer.addClass('preloader');
   };
 
   /* Фильтрация, пагинация, сортировка */
@@ -107,7 +107,7 @@ $(document).ready(() => {
 
         }
 
-        $('#cards_container').html(html);
+        $cardsContainer.html(html);
 
         /* star rating */
         const $ratingStar = $('.card__rating__stars');
