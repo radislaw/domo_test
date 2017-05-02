@@ -1,6 +1,15 @@
 $(document).ready(() => {
-  /* Фильтрация, пагинация, сортировка */
 
+  /* Склонение существительных  */
+  const pluralize = (n, forms) => {
+    return forms[n % 10 == 1 && n % 100 != 11 ?
+        0 :
+        n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ?
+            1 :
+            2];
+  };
+
+  /* Фильтрация, пагинация, сортировка */
   let page = 1,
       sort = 'asc';
 
@@ -11,6 +20,9 @@ $(document).ready(() => {
       dataType: 'json',
       success: function(data) {
         let html = '<div class="card-deck">';
+                        <a href="#" class="card__review__total">Всего
+                          <span class="card__review__amount">${item.reviews} ${pluralize(
+              item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>
 
         let firstPart  = [];
         let secondPart = [];
