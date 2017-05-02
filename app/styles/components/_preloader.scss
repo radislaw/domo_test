@@ -1,8 +1,7 @@
 .preloader{
   width: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  text-align: center;
   min-height: 710px;
   background: url(../images/preloader.svg) no-repeat center 70px;
   background-size: 70px;

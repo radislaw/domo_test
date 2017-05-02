@@ -10,47 +10,44 @@ $(document).ready(() => {
   };
 
   /* Прелоадер */
-  const $preloader = $('.preloader');
+  const $cardsContainer = $('#cards_container');
 
   const hidePreloader = () => {
-    $preloader.hide();
+    $cardsContainer.removeClass('preloader');
   };
 
   const showPreloader = () => {
-    $preloader.css('display', 'flex');
+    $cardsContainer.addClass('preloader');
   };
 
   /* Фильтрация, пагинация, сортировка */
   let page = 1,
       sort = 'asc';
+  let html = '';
 
-  const loadData = (postData) => {
-    showPreloader();
-    $.ajax({
-      url: 'catalog.php',
-      data: postData,
-      dataType: 'json',
-      cache: false,
-      success(data) {
-        let html   = '';
-        const card = (item) => {
-          let sale_price = '';
-          if (item.sale_price === null) {
-            sale_price = '';
-          } else
-            sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
+  const card = (item) => {
 
-          return `<div class="card">
-                    <img class="card__img" src="${item.image}" 
+    let sale_price = '',
+        reviews    = '';
+    if (item.sale_price === null) {
+      sale_price = '';
+    } else
+      sale_price = `<div class="card__sale">${item.sale_price} р.</div>`;
+
+    if (item.reviews === null) {
+      reviews = 'Нет отзывов';
+    } else
+      reviews = `Всего <span class="card__review__amount">${item.reviews} ${pluralize(
+          item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>`;
+
+    return `<div class="card">
+                    <img class="card__img" src="${item.image}"
                     alt=${item.title} width="171" height="140">
                     <div class="card__block">
                       <a href="#" class="card__title">${item.title}</a>
                       <div class="card__rating">
                         <div class="card__rating__stars">${item.rating}</div>
-                        <a href="#" class="card__review__total">Всего
-                          <span class="card__review__amount">${item.reviews} ${pluralize(
-              item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>
-                        </a>
+                        <a href="#" class="card__review__total">${reviews}</a>
                       </div>
                       <div class="card__deal">
                         <div class="card__prices">
@@ -61,44 +58,108 @@ $(document).ready(() => {
                       </div>
                     </div>
                 </div>`;
-        };
+  };
 
-        let firstPart  = [];
-        let secondPart = [];
+  const addHtml = (data, page) => {
+    /* Пагинация */
+    let per_page    = 8,
+        total_page  = Math.ceil(data.length / per_page),
+        offset      = ((page - 1) * per_page),
+        dataPerPage = data.splice(offset, per_page);
 
-        html = '<div class="card-deck">';
+    let paginationHtml = `
+          <ul class="pagination">
+            <li class="page-item" data-page=${page - 1}>
+              <a class="page-link" href="#" aria-label="Предыдущая страница">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Предыдущая страница</span>
+              </a>
+            </li>`;
+    for (let i = 1; i <= total_page; i++) {
+      paginationHtml += `
+            <li class="page-item" data-page=${i}><a class="page-link" href="#">${i}
+            </a></li>`;
+    }
+    paginationHtml += `
+            <li class="page-item" data-page=${+page + 1}>
+              <a class="page-link" href="#" aria-label="Следующая страница">
+                <span aria-hidden="true">Следующая страница &#8594</span>
+                <span class="sr-only">Следующая страница</span>
+              </a>
+            </li>
+          </ul>`;
+    if (total_page < 2) {
+      paginationHtml = '';
+    }
+    $('#pagination').html(paginationHtml);
 
-        data.forEach(item => {
-          html += card(item);
+    if ($('.page-item').last().attr('data-page') > total_page) {
+      $('.page-item').last().find('.page-link').hide();
+    }
+
+    /* Каталог */
+
+    let firstPart  = [];
+    let secondPart = [];
+
+    html = '<div class="card-deck">';
+
+    dataPerPage.forEach(item => {
+      html += card(item);
+    });
+
+    html += '</div>';
+
+    if (dataPerPage.length > 4) {
+      for (let i = 0; i < dataPerPage.length / 2; i++) {
+        firstPart.push(dataPerPage[i]);
+      }
+      for (let i = 4; i < dataPerPage.length; i++) {
+        secondPart.push(dataPerPage[i]);
+      }
+      html = '<div class="card-deck">';
+
+      firstPart.forEach(item => {
+        html += card(item);
+      });
+
+      html += '</div><div class="card-deck">';
+
+      secondPart.forEach(item => {
+        html += card(item);
+      });
+
+      html += '</div>';
+
+    }
+  };
+
+  const loadData = (postData, page=1) => {
+    showPreloader();
+    $.ajax({
+      url: 'catalog.php',
+      data: postData,
+      dataType: 'json',
+      cache: false,
+      success(data) {
+
+        addHtml(data, page);
+
+        $('.page-link').click(function(e) {
+          e.preventDefault();
         });
 
-        html += '</div>';
+        $('.page-item').click(function() {
+          let page = $(this).attr('data-page');
+          console.log(page);
+          loadData({page, sort}, page);
+          console.log(page);
+          console.log(data);
+        });
 
-        if (data.length > 4) {
-          for (let i = 0; i < data.length / 2; i++) {
-            firstPart.push(data[i]);
-          }
-          for (let i = 4; i < data.length; i++) {
-            secondPart.push(data[i]);
-          }
-          html = '<div class="card-deck">';
+        $cardsContainer.html(html);
 
-          firstPart.forEach(item => {
-            html += card(item);
-          });
-
-          html += '</div><div class="card-deck">';
-
-          secondPart.forEach(item => {
-            html += card(item);
-          });
-
-          html += '</div>';
-
-        }
-
-        $('#cards_container').html(html);
-
+        /* star rating */
         const $ratingStar = $('.card__rating__stars');
         $ratingStar.each((i, e) => {
 
@@ -133,7 +194,8 @@ f			                    }
     });
   };
 
-  const showValues = () => {
+  const filterData = () => {
+    $cardsContainer.html(' ');
     let brand1 = '',
         brand2 = '',
         brand3 = '';
@@ -163,15 +225,17 @@ f			                    }
 
   loadData({page, sort});
 
-  $('input[type=\'checkbox\']').on('click', showValues);
-
-// Remove checked when checkbox is checked
-  $('.checkboxes').click(() => {
-    $(this).removeAttr('checked');
-    showValues();
+  $('.page-item').click(function() {
+    let page = $(this).attr('data-page');
+    console.log(page);
+    loadData({page, sort}, page);
+    console.log(page);
+    console.log(data);
   });
 
-  /**/
+  $('input[type=\'checkbox\']').on('click', filterData);
+
+  /* Сортировка */
   const $sort     = $('.sorting__label');
   const $sortIcon = $sort.find('span');
   $sort.click(() => {
