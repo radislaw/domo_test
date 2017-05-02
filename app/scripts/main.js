@@ -38,18 +38,8 @@ $(document).ready(() => {
             page        = 1,
             per_page    = 8,
             offset      = ((page - 1) * per_page),
-            last_item   = ((page - 1) * per_page) + per_page,
-            total_page  = Math.ceil(data.length / per_page);
-        let dataPerPage = [];
-
-        for (let i = offset; i < last_item; i++) {
-          if (data[i] !== undefined) {
-            dataPerPage.push(data[i]);
-          }
-        }
-
-        console.log(dataPerPage);
-        console.log(total_page);
+            total_page  = Math.ceil(data.length / per_page),
+            dataPerPage = data.splice(offset, per_page);
 
         const card = (item) => {
           if (item.sale_price === null) {
