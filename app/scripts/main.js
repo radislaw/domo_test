@@ -32,9 +32,24 @@ $(document).ready(() => {
       dataType: 'json',
       cache: false,
       success(data) {
-        let html       = '',
-            sale_price = '',
-            reviews    = '';
+        let html        = '',
+            sale_price  = '',
+            reviews     = '',
+            page        = 1,
+            per_page    = 8,
+            offset      = ((page - 1) * per_page),
+            last_item   = ((page - 1) * per_page) + per_page,
+            total_page  = Math.ceil(data.length / per_page);
+        let dataPerPage = [];
+
+        for (let i = offset; i < last_item; i++) {
+          if (data[i] !== undefined) {
+            dataPerPage.push(data[i]);
+          }
+        }
+
+        console.log(dataPerPage);
+        console.log(total_page);
 
         const card = (item) => {
           if (item.sale_price === null) {
@@ -46,7 +61,7 @@ $(document).ready(() => {
             reviews = 'Нет отзывов';
           } else
             reviews = `Всего <span class="card__review__amount">${item.reviews} ${pluralize(
-              item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>`;
+                item.reviews, ['отзыв', 'отзыва', 'отзывов'])}</span>`;
 
           return `<div class="card">
                     <img class="card__img" src="${item.image}" 
@@ -73,18 +88,18 @@ $(document).ready(() => {
 
         html = '<div class="card-deck">';
 
-        data.forEach(item => {
+        dataPerPage.forEach(item => {
           html += card(item);
         });
 
         html += '</div>';
 
-        if (data.length > 4) {
-          for (let i = 0; i < data.length / 2; i++) {
-            firstPart.push(data[i]);
+        if (dataPerPage.length > 4) {
+          for (let i = 0; i < dataPerPage.length / 2; i++) {
+            firstPart.push(dataPerPage[i]);
           }
-          for (let i = 4; i < data.length; i++) {
-            secondPart.push(data[i]);
+          for (let i = 4; i < dataPerPage.length; i++) {
+            secondPart.push(dataPerPage[i]);
           }
           html = '<div class="card-deck">';
 
@@ -104,6 +119,7 @@ $(document).ready(() => {
 
         $('#cards_container').html(html);
 
+        /* star rating */
         const $ratingStar = $('.card__rating__stars');
         $ratingStar.each((i, e) => {
 
@@ -138,7 +154,7 @@ f			                    }
     });
   };
 
-  const showValues = () => {
+  const filterData = () => {
     let brand1 = '',
         brand2 = '',
         brand3 = '';
@@ -168,15 +184,9 @@ f			                    }
 
   loadData({page, sort});
 
-  $('input[type=\'checkbox\']').on('click', showValues);
+  $('input[type=\'checkbox\']').on('click', filterData);
 
-// Remove checked when checkbox is checked
-  $('.checkboxes').click(() => {
-    $(this).removeAttr('checked');
-    showValues();
-  });
-
-  /**/
+  /* Сортировка */
   const $sort     = $('.sorting__label');
   const $sortIcon = $sort.find('span');
   $sort.click(() => {
