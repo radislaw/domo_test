@@ -41,6 +41,35 @@ $(document).ready(() => {
             total_page  = Math.ceil(data.length / per_page),
             dataPerPage = data.splice(offset, per_page);
 
+        let paginationHtml = `
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Предыдущая страница">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Предыдущая страница</span>
+              </a>
+            </li>`;
+
+        for (let i = 1; i <= total_page; i++) {
+          paginationHtml += `
+            <li class="page-item" data-page=${i}><a class="page-link" href="#">${i}
+            </a></li>`;
+        }
+
+        paginationHtml += `
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Следующая страница">
+                <span aria-hidden="true">Следующая страница &#8594</span>
+                <span class="sr-only">Следующая страница</span>
+              </a>
+            </li>
+          </ul>`;
+
+        if (total_page < 2) {
+          paginationHtml = '';
+        }
+        $('#pagination').html(paginationHtml);
+
         const card = (item) => {
           if (item.sale_price === null) {
             sale_price = '';
