@@ -11,6 +11,7 @@
 @import "components/filter";
 @import "components/preloader";
 @import "components/cards";
+@import "components/pagination";
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -20,29 +21,12 @@
 }
 
 body {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   font-family: Arial, sans-serif;
 }
 
-.header,
-.marketing,
-.footer {
-  padding-right: 1rem;
-  padding-left: 1rem;
-}
-
 .content{
-  @extend .col-19;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 48em) {
-  .header,
-  .marketing,
-  .footer {
-    padding-right: 0;
-    padding-left: 0;
-  }
-
+  @extend .col-24;
+  @extend .col-lg-19;
 }
