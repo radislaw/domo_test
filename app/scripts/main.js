@@ -72,7 +72,7 @@ $(document).ready(() => {
           <ul class="pagination">
             <li class="page-item" data-page=${page - 1}>
               <a class="page-link" href="#" aria-label="Предыдущая страница">
-                <span aria-hidden="true">&laquo;</span>
+                <span aria-hidden="true">&#8592 Предыдущая страница</span> 
                 <span class="sr-only">Предыдущая страница</span>
               </a>
             </li>`;
