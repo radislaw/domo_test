@@ -134,7 +134,7 @@ $(document).ready(() => {
     }
   };
 
-  const loadData = (postData, page=1) => {
+  const loadData = (postData, page = 1) => {
     showPreloader();
     $.ajax({
       url: 'catalog.php',
@@ -196,13 +196,17 @@ f			                    }
 
   const filterData = () => {
     $cardsContainer.html(' ');
-    let brand1 = '',
-        brand2 = '',
-        brand3 = '';
+    let brand1  = '',
+        brand2  = '',
+        brand3  = '',
+        yes_ssd = '',
+        no_ssd  = '';
 
     const asus = $('input[name="brand1"]'),
           acer = $('input[name="brand2"]'),
-          hp   = $('input[name="brand3"]');
+          hp   = $('input[name="brand3"]'),
+          yes  = $('input[value="yes"]'),
+          no   = $('input[value="no"]');
 
     if (asus.is(':checked')) {
       brand1 = asus.val();
@@ -215,11 +219,24 @@ f			                    }
     if (hp.is(':checked')) {
       brand3 = hp.val();
     }
+    console.log(brand3);
+
+    if (yes.is(':checked')) {
+      yes_ssd = yes.val();
+    }
+    console.log(yes_ssd);
+
+    if (no.is(':checked')) {
+      no_ssd = no.val();
+    }
+    console.log(no_ssd);
 
     loadData({
       brand1,
       brand2,
       brand3,
+      yes_ssd,
+      no_ssd,
     });
   };
 
@@ -234,6 +251,7 @@ f			                    }
   });
 
   $('input[type=\'checkbox\']').on('click', filterData);
+  $('input[type=\'radio\']').on('click', filterData);
 
   /* Сортировка */
   const $sort     = $('.sorting__label');
