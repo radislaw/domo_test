@@ -206,7 +206,7 @@ f			                    }
           acer = $('input[name="brand2"]'),
           hp   = $('input[name="brand3"]'),
           yes  = $('input[value="yes"]'),
-          no  = $('input[value="no"]');
+          no   = $('input[value="no"]');
 
     if (asus.is(':checked')) {
       brand1 = asus.val();
@@ -236,7 +236,7 @@ f			                    }
       brand2,
       brand3,
       yes_ssd,
-      no_ssd
+      no_ssd,
     });
   };
 

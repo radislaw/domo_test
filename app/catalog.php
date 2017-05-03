@@ -34,6 +34,13 @@ $order = id;
 $sql = "SELECT * FROM notebooks";
 
 /* Фильтрация */
+
+if ($yes_ssd != null || $no_ssd != null) {
+    $sql = "SELECT * FROM notebooks
+          WHERE has_ssd = '$yes_ssd'
+          OR has_ssd = '$no_ssd'";
+}
+
 if ($brand1 != null || $brand2 != null || $brand3 != null) {
     $sql = "SELECT * FROM notebooks
           WHERE brand = '$brand1'
@@ -41,9 +48,12 @@ if ($brand1 != null || $brand2 != null || $brand3 != null) {
           OR brand = '$brand3'";
 }
 
-if ($yes_ssd != null || $no_ssd != null) {
+if ($brand1 != null || $brand2 != null || $brand3 != null AND $yes_ssd != null || $no_ssd != null) {
     $sql = "SELECT * FROM notebooks
-          WHERE has_ssd = '$yes_ssd'
+          WHERE brand = '$brand1'
+          OR brand = '$brand2'
+          OR brand = '$brand3'
+          AND has_ssd = '$yes_ssd'
           OR has_ssd = '$no_ssd'";
 }
 
