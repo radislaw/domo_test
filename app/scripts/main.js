@@ -21,10 +21,10 @@ $(document).ready(() => {
   };
 
   /* Фильтрация, пагинация, сортировка */
-  let page = 1,
-      sort = 'asc',
+  let page  = 1,
+      sort  = 'asc',
       order = 'id';
-  let html = '';
+  let html  = '';
 
   const card = (item) => {
 
@@ -111,20 +111,20 @@ $(document).ready(() => {
 
     html += '</div>';
 
-    if (dataPerPage.length > 4) {
+    if (dataPerPage.length === 4) {
       for (let i = 0; i < dataPerPage.length / 2; i++) {
         firstPart.push(dataPerPage[i]);
       }
       for (let i = 4; i < dataPerPage.length; i++) {
         secondPart.push(dataPerPage[i]);
       }
-      html = '<div class="card-deck">';
+      html = '<div class="card_deck">';
 
       firstPart.forEach(item => {
         html += card(item);
       });
 
-      html += '</div><div class="card-deck">';
+      html += '</div><div class="card_deck">';
 
       secondPart.forEach(item => {
         html += card(item);
