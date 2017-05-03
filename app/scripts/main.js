@@ -22,7 +22,8 @@ $(document).ready(() => {
 
   /* Фильтрация, пагинация, сортировка */
   let page = 1,
-      sort = 'asc';
+      sort = 'asc',
+      order = 'id';
   let html = '';
 
   const card = (item) => {
@@ -130,11 +131,11 @@ $(document).ready(() => {
       });
 
       html += '</div>';
-
     }
   };
 
   const loadData = (postData, page = 1) => {
+    $cardsContainer.html(' ');
     showPreloader();
     $.ajax({
       url: 'catalog.php',
@@ -151,10 +152,7 @@ $(document).ready(() => {
 
         $('.page-item').click(function() {
           let page = $(this).attr('data-page');
-          console.log(page);
           loadData({page, sort}, page);
-          console.log(page);
-          console.log(data);
         });
 
         $cardsContainer.html(html);
@@ -195,7 +193,6 @@ f			                    }
   };
 
   const filterData = () => {
-    $cardsContainer.html(' ');
     let brand1  = '',
         brand2  = '',
         brand3  = '',
@@ -244,10 +241,7 @@ f			                    }
 
   $('.page-item').click(function() {
     let page = $(this).attr('data-page');
-    console.log(page);
     loadData({page, sort}, page);
-    console.log(page);
-    console.log(data);
   });
 
   $('input[type=\'checkbox\']').on('click', filterData);
@@ -256,7 +250,12 @@ f			                    }
   /* Сортировка */
   const $sort     = $('.sorting__label');
   const $sortIcon = $sort.find('span');
+  sort = 'desc';
   $sort.click(() => {
+    order = 'price';
+    sort = (sort === 'desc') ? 'asc' : 'desc';
+    loadData({page, sort, order});
     $sortIcon.toggleClass('flipY');
   });
+
 });

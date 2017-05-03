@@ -19,10 +19,10 @@ $yes_ssd = $_GET['yes_ssd'];
 $no_ssd = $_GET['no_ssd'];
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $sort = (isset($_GET['sort']) && $_GET['sort'] == 'desc') ? 'desc' : 'asc';
-
+$order = (isset($_GET['order']) && $_GET['order'] == 'price') ? 'price' : 'id';
 
 /* Получение данных из базы */
-$order = id;
+
 //$per_page = 8;
 //$offset = (($page - 1) * $per_page);
 //$last_item = (($page - 1) * $per_page) + $per_page;
@@ -31,7 +31,7 @@ $order = id;
 
 //$sql = "SELECT * FROM notebooks ORDER BY $order $sort LIMIT $per_page OFFSET $offset";
 
-$sql = "SELECT * FROM notebooks";
+$sql = "SELECT * FROM notebooks ORDER BY $order $sort";
 
 /* Фильтрация */
 
