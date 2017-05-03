@@ -111,8 +111,12 @@ $(document).ready(() => {
 
     html += '</div>';
 
-    if (dataPerPage.length === 4) {
-      for (let i = 0; i < dataPerPage.length / 2; i++) {
+    if (dataPerPage.length > 4) {
+      let firstPartLength = Math.ceil(dataPerPage.length / 2);
+      if (dataPerPage.length > 7){
+        firstPartLength -= 1;
+      }
+      for (let i = 0; i <= firstPartLength; i++) {
         firstPart.push(dataPerPage[i]);
       }
       for (let i = 4; i < dataPerPage.length; i++) {
@@ -216,17 +220,14 @@ f			                    }
     if (hp.is(':checked')) {
       brand3 = hp.val();
     }
-    console.log(brand3);
 
     if (yes.is(':checked')) {
       yes_ssd = yes.val();
     }
-    console.log(yes_ssd);
 
     if (no.is(':checked')) {
       no_ssd = no.val();
     }
-    console.log(no_ssd);
 
     loadData({
       brand1,
