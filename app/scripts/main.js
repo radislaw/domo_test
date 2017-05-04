@@ -102,12 +102,12 @@ $(document).ready(() => {
 
     const $pageItem = $('.page-item');
 
-    if ($pageItem.last().attr('data-page') > total_page) {
+    if ($pageItem.last().data('page') > total_page) {
       $pageItem.last().find('.page-link').hide();
     }
 
     $pageItem.click(function() {
-      let page = $(this).attr('data-page');
+      let page = $(this).data('page');
       loadData({page, sort}, page);
       $(this).addClass('active');
     });
