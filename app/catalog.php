@@ -48,13 +48,24 @@ if ($brand1 != null || $brand2 != null || $brand3 != null) {
           OR brand = '$brand3'";
 }
 
-if ($brand1 != null || $brand2 != null || $brand3 != null AND $yes_ssd != null || $no_ssd != null) {
+if ($brand1 != null || $brand2 != null || $brand3 != null AND $yes_ssd != null) {
     $sql = "SELECT * FROM notebooks
           WHERE brand = '$brand1'
-          OR brand = '$brand2'
-          OR brand = '$brand3'
           AND has_ssd = '$yes_ssd'
-          OR has_ssd = '$no_ssd'";
+          OR brand = '$brand2'
+          AND has_ssd = '$yes_ssd'
+          OR brand = '$brand3'
+          AND has_ssd = '$yes_ssd'";
+}
+
+if ($brand1 != null || $brand2 != null || $brand3 != null AND $no_ssd != null) {
+    $sql = "SELECT * FROM notebooks
+          WHERE brand = '$brand1'
+          AND has_ssd = '$no_ssd'
+          OR brand = '$brand2'
+          AND has_ssd = '$no_ssd'
+          OR brand = '$brand3'
+          AND has_ssd = '$no_ssd'";
 }
 
 $result = mysqli_query($connection, $sql) or die("Ошибка: " . mysqli_error($connection));

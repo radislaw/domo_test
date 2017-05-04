@@ -21,13 +21,13 @@ $(document).ready(() => {
   };
 
   /* Фильтрация, пагинация, сортировка */
-  let page = 1,
-      sort = 'asc',
+  let page  = 1,
+      sort  = 'asc',
       order = 'id';
-  let html = '';
+  let html  = '';
 
+  /* Карточка товара */
   const card = (item) => {
-
     let sale_price = '',
         reviews    = '';
     if (item.sale_price === null) {
@@ -61,6 +61,7 @@ $(document).ready(() => {
                 </div>`;
   };
 
+  /* Формирование html */
   const addHtml = (data, page) => {
     /* Пагинация */
     let per_page    = 8,
@@ -72,14 +73,19 @@ $(document).ready(() => {
           <ul class="pagination">
             <li class="page-item" data-page=${page - 1}>
               <a class="page-link" href="#" aria-label="Предыдущая страница">
-                <span aria-hidden="true">&laquo;</span>
+                <span aria-hidden="true">&#8592 Предыдущая страница</span> 
                 <span class="sr-only">Предыдущая страница</span>
               </a>
             </li>`;
     for (let i = 1; i <= total_page; i++) {
+      let activeClass = 'page-item';
+      if (i === page) {
+        activeClass = 'page-item active';
+      }
       paginationHtml += `
-            <li class="page-item" data-page=${i}><a class="page-link" href="#">${i}
-            </a></li>`;
+            <li class="${activeClass}" data-page=${i}>
+              <a class="page-link" href="#">${i}</a>
+            </li>`;
     }
     paginationHtml += `
             <li class="page-item" data-page=${+page + 1}>
@@ -94,48 +100,54 @@ $(document).ready(() => {
     }
     $('#pagination').html(paginationHtml);
 
-    if ($('.page-item').last().attr('data-page') > total_page) {
-      $('.page-item').last().find('.page-link').hide();
+    const $pageItem = $('.page-item');
+
+    if ($pageItem.last().attr('data-page') > total_page) {
+      $pageItem.last().find('.page-link').hide();
     }
 
-    /* Каталог */
+    $pageItem.click(function() {
+      let page = $(this).attr('data-page');
+      loadData({page, sort}, page);
+      $(this).addClass('active');
+    });
 
+    /* Каталог */
     let firstPart  = [];
     let secondPart = [];
 
-    html = '<div class="card-deck">';
+    html = '<div class="card_deck">';
 
-    dataPerPage.forEach(item => {
-      html += card(item);
-    });
+    dataPerPage.forEach(item => html += card(item));
 
     html += '</div>';
 
     if (dataPerPage.length > 4) {
-      for (let i = 0; i < dataPerPage.length / 2; i++) {
+      let firstPartLength = Math.ceil(dataPerPage.length / 2);
+      if (dataPerPage.length > 7) {
+        firstPartLength -= 1;
+      }
+      for (let i = 0; i <= firstPartLength; i++) {
         firstPart.push(dataPerPage[i]);
       }
       for (let i = 4; i < dataPerPage.length; i++) {
         secondPart.push(dataPerPage[i]);
       }
-      html = '<div class="card-deck">';
+      html = '<div class="card_deck">';
 
-      firstPart.forEach(item => {
-        html += card(item);
-      });
+      firstPart.forEach(item => html += card(item));
 
-      html += '</div><div class="card-deck">';
+      html += '</div><div class="card_deck">';
 
-      secondPart.forEach(item => {
-        html += card(item);
-      });
+      secondPart.forEach(item => html += card(item));
 
       html += '</div>';
     }
   };
 
+  /* Загрузка данных с сервера и подстановка данных */
   const loadData = (postData, page = 1) => {
-    $cardsContainer.html(' ');
+    $cardsContainer.empty();
     showPreloader();
     $.ajax({
       url: 'catalog.php',
@@ -144,20 +156,16 @@ $(document).ready(() => {
       cache: false,
       success(data) {
 
+        /* html */
         addHtml(data, page);
 
         $('.page-link').click(function(e) {
           e.preventDefault();
         });
 
-        $('.page-item').click(function() {
-          let page = $(this).attr('data-page');
-          loadData({page, sort}, page);
-        });
-
         $cardsContainer.html(html);
 
-        /* star rating */
+        /* Звезды рейтинка */
         const $ratingStar = $('.card__rating__stars');
         $ratingStar.each((i, e) => {
 
@@ -192,6 +200,7 @@ f			                    }
     });
   };
 
+  /* Фильтрация */
   const filterData = () => {
     let brand1  = '',
         brand2  = '',
@@ -216,17 +225,14 @@ f			                    }
     if (hp.is(':checked')) {
       brand3 = hp.val();
     }
-    console.log(brand3);
 
     if (yes.is(':checked')) {
       yes_ssd = yes.val();
     }
-    console.log(yes_ssd);
 
     if (no.is(':checked')) {
       no_ssd = no.val();
     }
-    console.log(no_ssd);
 
     loadData({
       brand1,
@@ -237,23 +243,21 @@ f			                    }
     });
   };
 
+  /* События */
+    /* Загрузка страницы */
   loadData({page, sort});
 
-  $('.page-item').click(function() {
-    let page = $(this).attr('data-page');
-    loadData({page, sort}, page);
-  });
-
+    /* Фильтрация */
   $('input[type=\'checkbox\']').on('click', filterData);
   $('input[type=\'radio\']').on('click', filterData);
 
   /* Сортировка */
   const $sort     = $('.sorting__label');
   const $sortIcon = $sort.find('span');
-  sort = 'desc';
+  sort            = 'desc';
   $sort.click(() => {
     order = 'price';
-    sort = (sort === 'desc') ? 'asc' : 'desc';
+    sort  = (sort === 'desc') ? 'asc' : 'desc';
     loadData({page, sort, order});
     $sortIcon.toggleClass('flipY');
   });
