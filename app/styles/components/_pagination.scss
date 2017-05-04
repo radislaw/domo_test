@@ -1,0 +1,20 @@
+.page-item:last-child .page-link {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.page-item:first-child .page-link {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  //display: none;
+}
+
+.page-item[data-page="0"] {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .pagination{
+    justify-content: center;
+  }
+}

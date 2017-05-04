@@ -1,16 +1,75 @@
 .card {
-  @extend .col-6;
-  padding-left: 0;
-  padding-right: 0;
+  @extend .col-24;
+  @extend .col-sm-12;
+  @extend .col-lg-6;
   align-items: center;
+  margin-bottom: 2rem;
+
+  @media screen and (max-width: 576px) {
+    flex-direction: row;
+  }
+
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+    padding-right: 45px;
+    padding-left: 45px;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding-right: 45px;
+    padding-left: 45px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
 
   &__img {
 
   }
 
   &__title {
-    display: inline-block;
+    display: block;
     margin-bottom: 10px;
+    height: 57px;
+    overflow: hidden;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.5;
+
+    &::after {
+      content: '';
+      width: 100%;
+      height: 23px;
+      position: absolute;
+      left: 0;
+      bottom: -12px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #fff 50%);
+    }
+
+    &:hover {
+      overflow: visible;
+      z-index: 1;
+
+      &::after {
+        width: 0;
+      }
+    }
+    @media screen and (max-width: 576px) {
+      display: inline;
+      margin-bottom: 1rem;
+      &::after {
+        width: 0;
+      }
+    }
+
+    @media screen and (max-width: 425px) {
+      display: block;
+      &::after {
+        width: 100%;
+      }
+    }
   }
 
   &__block {
@@ -69,10 +128,6 @@
     margin-top: 18px;
   }
 
-  .b-add-to-cart__price_crossed + .b-add-to-cart__price-big {
-    margin: 0;
-  }
-
   &__btn {
     @extend .btn;
     @extend .btn-secondary;
@@ -83,34 +138,18 @@
   }
 }
 
-.product-card-price {
-  color: #3e3e3e;
-  font-size: 18px;
-  line-height: 1;
-}
-
 @media (min-width: 576px) {
   .card-deck .card:not(:last-child) {
     margin-right: 5px;
   }
 }
 
-.card-deck {
-  padding-bottom: 2rem;
+.card_deck {
+  @extend .row;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid $gray-lighter;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 }
 
-.page-item:last-child .page-link {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.page-item:first-child .page-link {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  display: none;
-}
